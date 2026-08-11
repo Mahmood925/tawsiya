@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  COACH
+  ADMIN
+}
+
+enum Status {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id            String         @id @default(cuid())
+  name          String
+  phone         String?
+  email         String         @unique
+  passwordHash  String
+  role          Role           @default(USER)
+  status        Status         @default(PENDING)
+  createdAt     DateTime       @default(now())
+  posts         Post[]
+  likes         Like[]
+  comments      Comment[]
+  notifications Notification[]
+}
+
+model Post {
+  id        String      @id @default(cuid())
+  authorId  String
+  author    User        @relation(fields: [authorId], references: [id])
+  category  String
+  title     String?
+  body      String
+  images    PostImage[]
+  likes     Like[]
+  comments  Comment[]
+  createdAt DateTime    @default(now())
+}
+
+model PostImage {
+  id     String @id @default(cuid())
+  postId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  url    String
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([postId, userId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  text      String
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  type      String
+  title     String
+  body      String
+  link      String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

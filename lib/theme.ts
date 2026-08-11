@@ -1,0 +1,16 @@
+export const C = {
+  bg: "#FAFAFA",
+  surface: "#FFFFFF",
+  surface2: "#F2F2F2",
+  border: "#DBDBDB",
+  text: "#262626",
+  textDim: "#8E8E8E",
+  gold: "#B8863F",
+  goldSoft: "rgba(184,134,63,0.12)",
+  teal: "#0C9E6E",
+  tealSoft: "rgba(12,158,110,0.10)",
+  coral: "#ED4956",
+  coralSoft: "rgba(237,73,86,0.10)",
+  amber: "#C7801F",
+  amberSoft: "rgba(199,128,31,0.10)",
+} as const;
