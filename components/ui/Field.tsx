@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import { C } from "@/lib/theme";
 
@@ -9,26 +9,38 @@ type FieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
 };
 
 export const Field = forwardRef<HTMLInputElement, FieldProps>(function Field(
-  { icon: Icon, style, ...inputProps },
+  { icon: Icon, style, onFocus, onBlur, ...inputProps },
   ref
 ) {
+  const [focused, setFocused] = useState(false);
+
   return (
     <div
       style={{
         display: "flex",
         alignItems: "center",
         gap: 8,
-        background: C.surface2,
-        border: `1px solid ${C.border}`,
+        background: focused ? C.surface : C.surface2,
+        border: `1px solid ${focused ? C.gold : C.border}`,
         borderRadius: 11,
         padding: "12px 13px",
         marginBottom: 12,
+        boxShadow: focused ? `0 0 0 3px ${C.goldSoft}` : "none",
+        transition: "border-color .15s ease, box-shadow .15s ease, background .15s ease",
       }}
     >
-      <Icon size={15} color={C.textDim} />
+      <Icon size={15} color={focused ? C.gold : C.textDim} />
       <input
         ref={ref}
         {...inputProps}
+        onFocus={(e) => {
+          setFocused(true);
+          onFocus?.(e);
+        }}
+        onBlur={(e) => {
+          setFocused(false);
+          onBlur?.(e);
+        }}
         style={{
           background: "none",
           border: "none",

@@ -24,7 +24,7 @@ export function FeedFilters() {
   }
 
   return (
-    <div style={{ display: "flex", gap: 8, padding: "12px 16px", overflowX: "auto" }}>
+    <div className="chip-row" style={{ display: "flex", gap: 8, padding: "12px 16px", overflowX: "auto" }}>
       {FILTERS.map((f) => (
         <Chip key={f.key} active={active === f.key} onClick={() => setFilter(f.key)}>
           {f.label}

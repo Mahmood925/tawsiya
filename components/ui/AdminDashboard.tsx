@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { Check, X, Trash2, UserPlus } from "lucide-react";
+import { Check, X, Trash2, UserPlus, UserCheck, Newspaper } from "lucide-react";
 import { C } from "@/lib/theme";
 import { Avatar } from "@/components/ui/Avatar";
 import { GoldButton } from "@/components/ui/GoldButton";
+import { EmptyState } from "@/components/ui/EmptyState";
 
 type AdminUser = {
   id: string;
@@ -133,11 +134,7 @@ export function AdminDashboard() {
 
       {!loading && tab === "pending" && (
         <div>
-          {pendingUsers.length === 0 && (
-            <div style={{ textAlign: "center", color: C.textDim, fontSize: 13, padding: "30px 0" }}>
-              لا توجد طلبات معلّقة
-            </div>
-          )}
+          {pendingUsers.length === 0 && <EmptyState icon={UserCheck} title="لا توجد طلبات معلّقة" hint="ستظهر هنا طلبات التسجيل الجديدة بانتظار موافقتك" />}
           {pendingUsers.map((u) => (
             <div
               key={u.id}
@@ -391,6 +388,7 @@ export function AdminDashboard() {
 
       {!loading && tab === "posts" && (
         <div>
+          {posts.length === 0 && <EmptyState icon={Newspaper} title="لا توجد منشورات" hint="ستظهر هنا كل المنشورات المنشورة في التطبيق" />}
           {posts.map((p) => (
             <div
               key={p.id}

@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Send } from "lucide-react";
+import { Send, MessageCircle } from "lucide-react";
 import { C } from "@/lib/theme";
+import { EmptyState } from "@/components/ui/EmptyState";
 
 type CommentItem = {
   id: string;
@@ -69,11 +70,7 @@ export function PostComments({
             <span style={{ color: C.text }}>{c.text}</span>
           </div>
         ))}
-        {comments.length === 0 && (
-          <div style={{ fontSize: 12.5, color: C.textDim, textAlign: "center", padding: "20px 0" }}>
-            لا توجد تعليقات بعد
-          </div>
-        )}
+        {comments.length === 0 && <EmptyState icon={MessageCircle} title="لا توجد تعليقات بعد" hint="كن أول من يعلّق على هذا المنشور" />}
       </div>
 
       <div

@@ -88,6 +88,14 @@ select:focus-visible {
   color: #262626;
 }
 
+.chip-row {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.chip-row::-webkit-scrollbar {
+  display: none;
+}
+
 .post-card {
   transition: background 0.15s ease;
 }

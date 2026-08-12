@@ -21,7 +21,7 @@ export default async function ProfilePage() {
       <div style={{ padding: "24px 16px" }}>
         <div style={{ textAlign: "center", marginBottom: 26 }}>
           <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
-            <Avatar name={session.name} size={68} />
+            <Avatar name={session.name} size={68} ring />
           </div>
           <div style={{ fontFamily: "var(--font-almarai), sans-serif", fontWeight: 800, fontSize: 17, color: C.text }}>
             {session.name}
