@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
   if (!body) return NextResponse.json({ error: "طلب غير صالح" }, { status: 400 });
 
-  const name = String(body.name || "").trim();
+  const name = String(body.name || "").trim().slice(0, 100);
   const email = String(body.email || "").trim().toLowerCase();
   const password = String(body.password || "");
   const role = String(body.role || "COACH");

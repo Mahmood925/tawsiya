@@ -24,7 +24,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   }
 
   const body = await req.json().catch(() => null);
-  const text = String(body?.text || "").trim();
+  const text = String(body?.text || "").trim().slice(0, 1000);
   if (!text) return NextResponse.json({ error: "التعليق فارغ" }, { status: 400 });
 
   const post = await prisma.post.findUnique({ where: { id: params.id }, select: { id: true, authorId: true } });

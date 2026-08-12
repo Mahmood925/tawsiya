@@ -1,14 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { hashPassword } from "@/lib/auth";
+import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 
 export async function POST(req: NextRequest) {
+  if (!checkRateLimit(`register:${getClientIp(req)}`, 5, 15 * 60 * 1000)) {
+    return NextResponse.json({ error: "محاولات كثيرة، حاول لاحقاً" }, { status: 429 });
+  }
+
   const body = await req.json().catch(() => null);
   if (!body) return NextResponse.json({ error: "طلب غير صالح" }, { status: 400 });
 
-  const name = String(body.name || "").trim();
+  const name = String(body.name || "").trim().slice(0, 100);
   const email = String(body.email || "").trim().toLowerCase();
-  const phone = body.phone ? String(body.phone).trim() : null;
+  const phone = body.phone ? String(body.phone).trim().slice(0, 30) : null;
   const password = String(body.password || "");
 
   if (!name || !email || !password) {
@@ -17,7 +22,7 @@ export async function POST(req: NextRequest) {
   if (password.length < 6) {
     return NextResponse.json({ error: "كلمة المرور يجب ألا تقل عن 6 أحرف" }, { status: 400 });
   }
-  if (!/^\S+@\S+\.\S+$/.test(email)) {
+  if (!/^\S+@\S+\.\S+$/.test(email) || email.length > 200) {
     return NextResponse.json({ error: "البريد الإلكتروني غير صالح" }, { status: 400 });
   }
 

@@ -30,8 +30,8 @@ export async function POST(req: NextRequest) {
 
   const formData = await req.formData();
   const category = String(formData.get("category") || "");
-  const title = formData.get("title") ? String(formData.get("title")) : null;
-  const bodyText = String(formData.get("body") || "").trim();
+  const title = formData.get("title") ? String(formData.get("title")).slice(0, 150) : null;
+  const bodyText = String(formData.get("body") || "").trim().slice(0, 5000);
 
   if (!ALLOWED_CATEGORIES.includes(category)) {
     return NextResponse.json({ error: "نوع المنشور غير صالح" }, { status: 400 });

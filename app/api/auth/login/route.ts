@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { verifyPassword, signSession, SESSION_COOKIE, SessionPayload } from "@/lib/auth";
+import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 
 export async function POST(req: NextRequest) {
+  if (!checkRateLimit(`login:${getClientIp(req)}`, 10, 5 * 60 * 1000)) {
+    return NextResponse.json({ error: "محاولات كثيرة، حاول لاحقاً" }, { status: 429 });
+  }
+
   const body = await req.json().catch(() => null);
   if (!body) return NextResponse.json({ error: "طلب غير صالح" }, { status: 400 });
 
