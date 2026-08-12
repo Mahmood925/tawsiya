@@ -13,6 +13,6 @@ android/.gradle/
 android/local.properties
 android/captures/
 android/app/release/
-*.apk
+/*.apk
 assets/icon.png
 assets/splash.png
