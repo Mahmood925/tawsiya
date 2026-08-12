@@ -41,23 +41,25 @@ export default function RegisterPage() {
   }
 
   return (
-    <div>
-      <TopBar title="إنشاء حساب" backHref="/login" />
-      <form onSubmit={submit} style={{ padding: "16px 20px", maxWidth: 420, margin: "0 auto" }}>
-        <Field icon={User} placeholder="الاسم الكامل" value={name} onChange={(e) => setName(e.target.value)} required />
-        <Field icon={Phone} placeholder="رقم الهاتف" value={phone} onChange={(e) => setPhone(e.target.value)} />
-        <Field icon={Mail} placeholder="البريد الإلكتروني" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <Field icon={Lock} placeholder="كلمة المرور" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        <Field icon={Lock} placeholder="تأكيد كلمة المرور" type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} required />
+    <div className="app-shell-bg">
+      <div className="app-frame">
+        <TopBar title="إنشاء حساب" backHref="/login" />
+        <form onSubmit={submit} style={{ padding: "20px 20px", maxWidth: 420, margin: "0 auto", width: "100%" }}>
+          <Field icon={User} placeholder="الاسم الكامل" value={name} onChange={(e) => setName(e.target.value)} required />
+          <Field icon={Phone} placeholder="رقم الهاتف" value={phone} onChange={(e) => setPhone(e.target.value)} />
+          <Field icon={Mail} placeholder="البريد الإلكتروني" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <Field icon={Lock} placeholder="كلمة المرور" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <Field icon={Lock} placeholder="تأكيد كلمة المرور" type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} required />
 
-        {error && <div style={{ color: C.coral, fontSize: 12.5, marginBottom: 12 }}>{error}</div>}
+          {error && <div style={{ color: C.coral, fontSize: 12.5, marginBottom: 12 }}>{error}</div>}
 
-        <div style={{ marginTop: 8 }}>
-          <GoldButton type="submit" disabled={loading}>
-            {loading ? "جارٍ الإنشاء..." : "إنشاء الحساب"}
-          </GoldButton>
-        </div>
-      </form>
+          <div style={{ marginTop: 8 }}>
+            <GoldButton type="submit" disabled={loading}>
+              {loading ? "جارٍ الإنشاء..." : "إنشاء الحساب"}
+            </GoldButton>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

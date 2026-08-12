@@ -32,7 +32,14 @@ export function GoldButton({
         fontWeight: 800,
         fontSize: 14,
         fontFamily: "var(--font-almarai), sans-serif",
+        boxShadow: disabled ? "none" : "0 6px 16px -6px rgba(184,134,63,0.55)",
         ...style,
+      }}
+      onMouseEnter={(e) => {
+        if (!disabled) e.currentTarget.style.filter = "brightness(1.05)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.filter = "none";
       }}
     >
       {children}

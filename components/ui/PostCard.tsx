@@ -23,7 +23,7 @@ export function PostCard({ post, timeLabel }: { post: PostCardData; timeLabel: s
   const cover = post.images[0];
 
   return (
-    <article style={{ borderBottom: `1px solid ${C.border}` }}>
+    <article className="post-card" style={{ borderBottom: `1px solid ${C.border}` }}>
       <Link
         href={`/feed/${post.id}`}
         style={{

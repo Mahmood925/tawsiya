@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { TrendingUp } from "lucide-react";
 import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { getFeedPosts, timeAgo } from "@/lib/posts";
@@ -6,7 +7,7 @@ import { Header } from "@/components/ui/Header";
 import { FeedFilters } from "@/components/ui/FeedFilters";
 import { PostCard } from "@/components/ui/PostCard";
 import { NotificationPrompt } from "@/components/ui/NotificationPrompt";
-import { C } from "@/lib/theme";
+import { EmptyState } from "@/components/ui/EmptyState";
 
 export default async function FeedPage({
   searchParams,
@@ -28,9 +29,7 @@ export default async function FeedPage({
       <FeedFilters />
       <div>
         {posts.length === 0 && (
-          <div style={{ textAlign: "center", color: C.textDim, fontSize: 13, padding: "40px 0" }}>
-            لا توجد منشورات بعد
-          </div>
+          <EmptyState icon={TrendingUp} title="لا توجد منشورات بعد" hint="ستظهر هنا أحدث التوصيات والتحليلات فور نشرها" />
         )}
         {posts.map((p) => (
           <PostCard key={p.id} post={p} timeLabel={timeAgo(p.createdAt)} />

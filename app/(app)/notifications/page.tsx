@@ -4,7 +4,8 @@ import { prisma } from "@/lib/db";
 import { timeAgo } from "@/lib/posts";
 import { C } from "@/lib/theme";
 import { TopBar } from "@/components/ui/TopBar";
-import { TrendingUp, MessageCircle, Heart, ShieldCheck, ShieldX } from "lucide-react";
+import { TrendingUp, MessageCircle, Heart, ShieldCheck, ShieldX, BellOff } from "lucide-react";
+import { EmptyState } from "@/components/ui/EmptyState";
 
 const ICON_MAP: Record<string, { Icon: typeof TrendingUp; color: string; bg: string }> = {
   NEW_POST: { Icon: TrendingUp, color: C.teal, bg: C.tealSoft },
@@ -78,11 +79,7 @@ export default async function NotificationsPage() {
             <div key={n.id}>{content}</div>
           );
         })}
-        {notifications.length === 0 && (
-          <div style={{ textAlign: "center", color: C.textDim, fontSize: 13, padding: "40px 0" }}>
-            لا توجد إشعارات
-          </div>
-        )}
+        {notifications.length === 0 && <EmptyState icon={BellOff} title="لا توجد إشعارات" hint="ستصلك هنا كل التحديثات المتعلقة بحسابك ومنشوراتك" />}
       </div>
     </div>
   );

@@ -13,4 +13,7 @@ export const C = {
   coralSoft: "rgba(237,73,86,0.10)",
   amber: "#C7801F",
   amberSoft: "rgba(199,128,31,0.10)",
+  shadow: "0 1px 2px rgba(20,15,5,0.04)",
+  shadowMd: "0 8px 24px -8px rgba(20,15,5,0.14)",
+  shadowLg: "0 24px 70px -20px rgba(20,15,5,0.22), 0 4px 16px rgba(20,15,5,0.06)",
 } as const;

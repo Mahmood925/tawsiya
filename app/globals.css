@@ -1,13 +1,16 @@
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html,
 body {
   margin: 0;
   padding: 0;
-  background: #fafafa;
+  background: #f5f3ee;
   color: #262626;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 a {
@@ -27,6 +30,22 @@ textarea::placeholder {
   color: #8e8e8e;
 }
 
+button {
+  transition: filter 0.15s ease, transform 0.1s ease, opacity 0.15s ease, background 0.15s ease;
+}
+button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #b8863f;
+  outline-offset: 2px;
+}
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -44,5 +63,52 @@ textarea::placeholder {
   100% {
     transform: scale(2.4);
     opacity: 0;
+  }
+}
+
+/* Desktop/browser presentation: renders the app as a native-feeling framed
+   card floating on a soft branded backdrop instead of a bare stretched column. */
+.app-shell-bg {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  background: radial-gradient(circle at 12% 0%, rgba(184, 134, 63, 0.12), transparent 45%),
+    radial-gradient(circle at 92% 100%, rgba(12, 158, 110, 0.08), transparent 45%), #f5f3ee;
+}
+
+.app-frame {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  color: #262626;
+}
+
+.post-card {
+  transition: background 0.15s ease;
+}
+@media (hover: hover) {
+  .post-card:hover {
+    background: #fbfaf8;
+  }
+}
+
+@media (min-width: 640px) {
+  .app-shell-bg {
+    padding: 40px 20px;
+    align-items: center;
+  }
+  .app-frame {
+    height: min(880px, calc(100vh - 80px));
+    min-height: 0;
+    border-radius: 24px;
+    box-shadow: 0 24px 70px -20px rgba(20, 15, 5, 0.22), 0 4px 16px rgba(20, 15, 5, 0.06);
+    border: 1px solid rgba(20, 15, 5, 0.06);
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 }

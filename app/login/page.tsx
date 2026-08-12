@@ -37,32 +37,36 @@ export default function LoginPage() {
   }
 
   return (
-    <form onSubmit={submit} style={{ padding: "40px 20px 20px", maxWidth: 420, margin: "0 auto" }}>
-      <div style={{ textAlign: "center", margin: "18px 0 26px" }}>
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: 14 }}>
-          <LogoMark size={56} />
-        </div>
-        <div style={{ fontFamily: "var(--font-almarai), sans-serif", fontWeight: 800, fontSize: 19, color: C.text }}>
-          مرحباً بعودتك
-        </div>
-        <div style={{ fontSize: 12, color: C.textDim, marginTop: 4 }}>سجّل دخولك لمتابعة التوصيات والتحليلات</div>
+    <div className="app-shell-bg">
+      <div className="app-frame" style={{ justifyContent: "center" }}>
+        <form onSubmit={submit} style={{ padding: "40px 24px", maxWidth: 420, width: "100%", margin: "0 auto" }}>
+          <div style={{ textAlign: "center", margin: "18px 0 30px" }}>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+              <LogoMark size={60} />
+            </div>
+            <div style={{ fontFamily: "var(--font-almarai), sans-serif", fontWeight: 800, fontSize: 20, color: C.text }}>
+              مرحباً بعودتك
+            </div>
+            <div style={{ fontSize: 12.5, color: C.textDim, marginTop: 5 }}>سجّل دخولك لمتابعة التوصيات والتحليلات</div>
+          </div>
+
+          <Field icon={Mail} placeholder="البريد الإلكتروني" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <Field icon={Lock} placeholder="كلمة المرور" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+
+          {error && <div style={{ color: C.coral, fontSize: 12.5, marginBottom: 12 }}>{error}</div>}
+
+          <GoldButton type="submit" disabled={loading}>
+            {loading ? "جارٍ الدخول..." : "تسجيل الدخول"}
+          </GoldButton>
+
+          <div style={{ textAlign: "center", marginTop: 20, fontSize: 12.5, color: C.textDim }}>
+            ليس لديك حساب؟{" "}
+            <Link href="/register" style={{ color: C.gold, fontWeight: 700 }}>
+              سجل الآن
+            </Link>
+          </div>
+        </form>
       </div>
-
-      <Field icon={Mail} placeholder="البريد الإلكتروني" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-      <Field icon={Lock} placeholder="كلمة المرور" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-
-      {error && <div style={{ color: C.coral, fontSize: 12.5, marginBottom: 12 }}>{error}</div>}
-
-      <GoldButton type="submit" disabled={loading}>
-        {loading ? "جارٍ الدخول..." : "تسجيل الدخول"}
-      </GoldButton>
-
-      <div style={{ textAlign: "center", marginTop: 18, fontSize: 12.5, color: C.textDim }}>
-        ليس لديك حساب؟{" "}
-        <Link href="/register" style={{ color: C.gold, fontWeight: 700 }}>
-          سجل الآن
-        </Link>
-      </div>
-    </form>
+    </div>
   );
 }
