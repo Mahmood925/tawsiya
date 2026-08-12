@@ -5,6 +5,9 @@ import { getSession, requireRole } from "@/lib/auth";
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   const session = await getSession();
+  if (!session || session.status !== "APPROVED") {
+    return NextResponse.json({ error: "يجب تسجيل الدخول" }, { status: 401 });
+  }
 
   const post = await prisma.post.findUnique({
     where: { id: params.id },
@@ -16,7 +19,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
         include: { user: { select: { id: true, name: true } } },
       },
       _count: { select: { likes: true } },
-      likes: session ? { where: { userId: session.sub }, select: { id: true } } : false,
+      likes: { where: { userId: session.sub }, select: { id: true } },
     },
   });
 
@@ -31,7 +34,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     author: post.author,
     images: post.images.map((i) => ({ id: i.id, url: i.url })),
     likeCount: post._count.likes,
-    likedByMe: session ? post.likes.length > 0 : false,
+    likedByMe: post.likes.length > 0,
     comments: post.comments.map((c) => ({
       id: c.id,
       text: c.text,

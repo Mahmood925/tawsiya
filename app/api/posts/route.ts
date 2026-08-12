@@ -11,10 +11,14 @@ const ALLOWED_CATEGORIES = ["analysis", "news"];
 
 export async function GET(req: NextRequest) {
   const session = await getSession();
+  if (!session || session.status !== "APPROVED") {
+    return NextResponse.json({ error: "يجب تسجيل الدخول" }, { status: 401 });
+  }
+
   const { searchParams } = new URL(req.url);
   const category = searchParams.get("category");
 
-  const posts = await getFeedPosts(session?.sub ?? null, category);
+  const posts = await getFeedPosts(session.sub, category);
   return NextResponse.json({ posts });
 }
 

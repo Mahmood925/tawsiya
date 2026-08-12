@@ -4,6 +4,11 @@ import { getSession } from "@/lib/auth";
 import { createNotification } from "@/lib/notify";
 
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+  const session = await getSession();
+  if (!session || session.status !== "APPROVED") {
+    return NextResponse.json({ error: "يجب تسجيل الدخول" }, { status: 401 });
+  }
+
   const comments = await prisma.comment.findMany({
     where: { postId: params.id },
     orderBy: { createdAt: "asc" },
