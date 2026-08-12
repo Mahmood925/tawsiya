@@ -28,10 +28,11 @@ model User {
   role          Role           @default(USER)
   status        Status         @default(PENDING)
   createdAt     DateTime       @default(now())
-  posts         Post[]
-  likes         Like[]
-  comments      Comment[]
-  notifications Notification[]
+  posts             Post[]
+  likes             Like[]
+  comments          Comment[]
+  notifications     Notification[]
+  pushSubscriptions PushSubscription[]
 }
 
 model Post {
@@ -72,6 +73,16 @@ model Comment {
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   text      String
+  createdAt DateTime @default(now())
+}
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
   createdAt DateTime @default(now())
 }
 

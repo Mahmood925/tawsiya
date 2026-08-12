@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import { sendPushToUsers } from "@/lib/push";
 
 export type NotificationType =
   | "NEW_POST"
@@ -14,9 +15,11 @@ export async function createNotification(
   body: string,
   link?: string
 ) {
-  return prisma.notification.create({
+  const notification = await prisma.notification.create({
     data: { userId, type, title, body, link },
   });
+  await sendPushToUsers([userId], { title, body, link });
+  return notification;
 }
 
 export async function notifyMany(
@@ -30,4 +33,5 @@ export async function notifyMany(
   await prisma.notification.createMany({
     data: userIds.map((userId) => ({ userId, type, title, body, link })),
   });
+  await sendPushToUsers(userIds, { title, body, link });
 }

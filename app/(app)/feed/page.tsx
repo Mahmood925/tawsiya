@@ -5,6 +5,7 @@ import { getFeedPosts, timeAgo } from "@/lib/posts";
 import { Header } from "@/components/ui/Header";
 import { FeedFilters } from "@/components/ui/FeedFilters";
 import { PostCard } from "@/components/ui/PostCard";
+import { NotificationPrompt } from "@/components/ui/NotificationPrompt";
 import { C } from "@/lib/theme";
 
 export default async function FeedPage({
@@ -23,6 +24,7 @@ export default async function FeedPage({
   return (
     <div>
       <Header unreadCount={unreadCount} />
+      <NotificationPrompt />
       <FeedFilters />
       <div>
         {posts.length === 0 && (
