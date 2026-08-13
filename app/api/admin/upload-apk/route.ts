@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { put } from "@vercel/blob";
+import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { getSession, requireRole } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
@@ -8,16 +8,20 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "غير مصرح" }, { status: 403 });
   }
 
-  const formData = await req.formData();
-  const file = formData.get("apk");
-  if (!(file instanceof File)) {
-    return NextResponse.json({ error: "لم يتم إرفاق ملف" }, { status: 400 });
+  const body = (await req.json()) as HandleUploadBody;
+
+  try {
+    const jsonResponse = await handleUpload({
+      body,
+      request: req,
+      onBeforeGenerateToken: async () => ({
+        allowedContentTypes: ["application/vnd.android.package-archive"],
+        addRandomSuffix: false,
+      }),
+      onUploadCompleted: async () => {},
+    });
+    return NextResponse.json(jsonResponse);
+  } catch (error) {
+    return NextResponse.json({ error: (error as Error).message }, { status: 400 });
   }
-
-  const blob = await put("releases/tawsiya.apk", file, {
-    access: "public",
-    addRandomSuffix: false,
-  });
-
-  return NextResponse.json({ url: blob.url });
 }
