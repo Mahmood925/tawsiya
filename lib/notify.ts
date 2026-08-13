@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db";
 import { sendPushToUsers } from "@/lib/push";
+import { sendFcmToUsers } from "@/lib/fcm";
 
 export type NotificationType =
   | "NEW_POST"
@@ -18,7 +19,10 @@ export async function createNotification(
   const notification = await prisma.notification.create({
     data: { userId, type, title, body, link },
   });
-  await sendPushToUsers([userId], { title, body, link });
+  await Promise.all([
+    sendPushToUsers([userId], { title, body, link }),
+    sendFcmToUsers([userId], { title, body, link }),
+  ]);
   return notification;
 }
 
@@ -33,5 +37,8 @@ export async function notifyMany(
   await prisma.notification.createMany({
     data: userIds.map((userId) => ({ userId, type, title, body, link })),
   });
-  await sendPushToUsers(userIds, { title, body, link });
+  await Promise.all([
+    sendPushToUsers(userIds, { title, body, link }),
+    sendFcmToUsers(userIds, { title, body, link }),
+  ]);
 }

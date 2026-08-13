@@ -7,6 +7,7 @@ import 'widgets/common.dart';
 import 'screens/login_screen.dart';
 import 'screens/pending_screen.dart';
 import 'screens/app_shell.dart';
+import 'push_service.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,6 +67,7 @@ class _SplashGateState extends State<SplashGate> {
         await ApiClient.clearCookie();
         _go(const LoginScreen());
       } else {
+        initPushNotifications();
         _go(AppShell(session: session));
       }
     } catch (_) {

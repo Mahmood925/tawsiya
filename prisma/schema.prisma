@@ -33,6 +33,7 @@ model User {
   comments          Comment[]
   notifications     Notification[]
   pushSubscriptions PushSubscription[]
+  fcmTokens         FcmToken[]
 }
 
 model Post {
@@ -83,6 +84,14 @@ model PushSubscription {
   endpoint  String   @unique
   p256dh    String
   auth      String
+  createdAt DateTime @default(now())
+}
+
+model FcmToken {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
   createdAt DateTime @default(now())
 }
 

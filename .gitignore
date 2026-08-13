@@ -19,3 +19,4 @@ assets/splash.png
 
 .vercel
 .env*
+firebase-service-account.json

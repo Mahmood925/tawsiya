@@ -7,6 +7,7 @@ import '../widgets/common.dart';
 import 'register_screen.dart';
 import 'pending_screen.dart';
 import 'app_shell.dart';
+import '../push_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -42,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }
       final meRes = await ApiClient.get('/api/auth/me');
       final session = Session.fromJson(jsonDecode(meRes.body));
+      initPushNotifications();
       if (!mounted) return;
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => AppShell(session: session)));
     } catch (_) {
