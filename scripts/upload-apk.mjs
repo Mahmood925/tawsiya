@@ -30,7 +30,6 @@ const fileBuffer = fs.readFileSync(process.argv[2]);
 const blob = await put("releases/tawsiya.apk", fileBuffer, {
   access: "public",
   token: clientToken,
-  addRandomSuffix: false,
   contentType: "application/vnd.android.package-archive",
 });
 
