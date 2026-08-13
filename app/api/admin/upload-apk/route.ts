@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
+import { del } from "@vercel/blob";
 import { getSession, requireRole } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
@@ -14,10 +15,13 @@ export async function POST(req: NextRequest) {
     const jsonResponse = await handleUpload({
       body,
       request: req,
-      onBeforeGenerateToken: async () => ({
-        allowedContentTypes: ["application/vnd.android.package-archive"],
-        addRandomSuffix: false,
-      }),
+      onBeforeGenerateToken: async () => {
+        await del("releases/tawsiya.apk").catch(() => null);
+        return {
+          allowedContentTypes: ["application/vnd.android.package-archive"],
+          addRandomSuffix: false,
+        };
+      },
       onUploadCompleted: async () => {},
     });
     return NextResponse.json(jsonResponse);
