@@ -16,3 +16,6 @@ android/app/release/
 /*.apk
 assets/icon.png
 assets/splash.png
+
+.vercel
+.env*
